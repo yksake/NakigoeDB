@@ -5,7 +5,7 @@ namespace CryLoader
 {
 	const FilePath audioPathList = U"saves/PathList.csv";
 
-	static Array<CryData> loadMainDB(const Array<TagData>& basicTags)
+	static Array<CryData> loadMainDB()
 	{
 		const FilePath path = U"data/Main.csv";
 
@@ -142,9 +142,9 @@ namespace CryLoader
 		}
 	}
 
-	Array<CryData> Load(const Array<TagData>& basicTags, const Array<TagData>& userTags)
+	Array<CryData> Load(const Array<TagData>& userTags)
 	{
-		Array<CryData> cries = loadMainDB(basicTags);
+		Array<CryData> cries = loadMainDB();
 
 		setAudioPath(cries);
 

@@ -65,7 +65,7 @@ SOFTWARE.)-",
 	getData().userTags = TagLoader::LoadUserTags();
 
 	getData().cries.clear();
-	for (const auto& cry : CryLoader::Load(getData().basicTags, getData().userTags))
+	for (const auto& cry : CryLoader::Load(getData().userTags))
 	{
 		getData().cries << std::make_shared<CryData>(cry);
 	}
