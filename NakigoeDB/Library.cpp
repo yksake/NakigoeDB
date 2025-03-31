@@ -365,7 +365,7 @@ void Library::draw() const
 	m_menubar.draw();
 
 	const bool isDialogActive = m_dialog && m_dialog->isActive();
-	if (not m_menubar.itemBoxMouseOver() && not isDialogActive && not m_dragIcon && not m_rightClickMenu)
+	if (not m_menubar.itemBoxMouseOver() && not isDialogActive && not m_dragIcon && not m_rightClickMenu && Window::GetState().focused)
 	{
 		const String mouseOverText = m_filePanel.getMouseOverText();
 
