@@ -163,6 +163,10 @@ namespace CryLoader
 			{
 				continue;
 			}
+			if (not cry->path)
+			{
+				continue;
+			}
 
 			csv.write(cry->key.number);
 			csv.write(cry->key.subID);
