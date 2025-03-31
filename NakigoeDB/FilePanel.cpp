@@ -359,6 +359,8 @@ bool FilePanel::updateItems(const bool enabled)
 
 void FilePanel::draw() const
 {
+	m_region.draw(Color{ 128 });
+
 	const size_t startIndex = m_scrollLength / FileItem::Height;
 
 	for (size_t i = startIndex; i < m_fileItems.size(); ++i)
