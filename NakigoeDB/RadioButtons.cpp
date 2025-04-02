@@ -26,7 +26,7 @@ bool RadioButtons::update(const Vec2& pos, const Optional<double>& width, const 
 
 	bool isPushed = false;
 
-	for (size_t i = 0; i < m_options.size(); ++i)
+	for (size_t i = 0; i < m_options.size() && enabled; ++i)
 	{
 		const Circle button = buttonRegion(i);
 

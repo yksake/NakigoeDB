@@ -99,7 +99,7 @@ void Library::update()
 	// 右クリックメニュー
 	if (m_rightClickMenu)
 	{
-		const RectF clip = Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0.0, 0.0, 0.0);
+		const RectF clip = Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, 0);
 
 		if (m_rightClickMenu->update(clip))
 		{
@@ -155,7 +155,7 @@ void Library::update()
 	{
 		m_rightClickMenu = std::make_unique<ItemRightClickMenu>(*rightClicked, Cursor::PosF());
 
-		const RectF clip = Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0.0, 0.0, 0.0);
+		const RectF clip = Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, 0);
 		m_rightClickMenu->update(clip);
 	}
 
@@ -202,7 +202,7 @@ void Library::updateMenuBar()
 					return;
 				}
 
-				registerFile(index + 1);
+				registerFile(static_cast<int32>(index) + 1);
 			};
 
 			m_dialog = std::make_unique<AddFilesDialog>(closeFunc);
@@ -396,8 +396,8 @@ std::pair<Array<TagData>, Array<TagData>> Library::separateFilters(const Array<T
 {
 	Array<TagData> andFilters, orFilters;
 
-	const int32 lpleDisplayGen = 8 + int32(m_lpleDisplayOption) - 1;
-	const int32 laDisplayGen = 10 + int32(m_laDisplayOption) - 1;
+	const int32 lpleDisplayGen = 8 + static_cast<int32>(m_lpleDisplayOption) - 1;
+	const int32 laDisplayGen = 10 + static_cast<int32>(m_laDisplayOption) - 1;
 
 	// ピカブイ、Legendsアルセウスを他世代に含める
 	for (const auto& filter : filters)
@@ -462,7 +462,7 @@ std::pair<Array<TagData>, Array<TagData>> Library::separateFilters(const Array<T
 
 RectF Library::fileArea() const
 {
-	return Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, -m_sidePanelWidth);
+	return Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, -static_cast<int32>(m_sidePanelWidth));
 }
 
 RectF Library::tagArea() const

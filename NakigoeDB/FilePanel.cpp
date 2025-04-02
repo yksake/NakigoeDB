@@ -153,9 +153,9 @@ bool FilePanel::updateItems(const bool enabled)
 			}
 			else // 選択されたアイテムがある場合
 			{
-				const int32 newIndex = selectedList.back() + moveInput;
+				const int32 newIndex = static_cast<int32>(selectedList.back()) + moveInput;
 
-				if (InRange(newIndex, 0, int32(m_fileItems.size() - 1)))
+				if (InRange(newIndex, 0, static_cast<int32>(m_fileItems.size()) - 1))
 				{
 					m_fileItems.each([](FileItem& panel) { panel.setSelection(false); });
 					m_fileItems[newIndex].setSelection(true);
@@ -361,7 +361,7 @@ void FilePanel::draw() const
 {
 	m_region.draw(Color{ 128 });
 
-	const size_t startIndex = m_scrollLength / FileItem::Height;
+	const size_t startIndex = static_cast<size_t>(m_scrollLength / FileItem::Height);
 
 	for (size_t i = startIndex; i < m_fileItems.size(); ++i)
 	{
@@ -647,7 +647,7 @@ Optional<size_t> FilePanel::getHoverItemIndex(const Vec2& cursorPos) const
 		return none;
 	}
 
-	const size_t mouseOverIndex = (cursorPos.y - (m_region.topY() - m_scrollLength)) / FileItem::Height;
+	const size_t mouseOverIndex = static_cast<size_t>((cursorPos.y - (m_region.topY() - m_scrollLength)) / FileItem::Height);
 
 	if (mouseOverIndex < m_fileItems.size())
 	{

@@ -27,7 +27,7 @@ public:
 
 	void addChild(std::unique_ptr<TagItem> child);
 
-	ParentTagItem& operator=(ParentTagItem&& ptp)
+	ParentTagItem& operator=(ParentTagItem&& ptp) noexcept
 	{
 		this->m_pos = ptp.m_pos;
 		this->m_width = ptp.m_width;

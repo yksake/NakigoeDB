@@ -119,7 +119,7 @@ namespace TagPanelLoader
 				if (not currentTag.category)
 				{
 					// 親グループのカテゴリIDを適用
-					for (int32 i = categoryList.size() - 1; 0 <= i; --i)
+					for (int32 i = static_cast<int32>(categoryList.size()) - 1; 0 <= i; --i)
 					{
 						if (not categoryList[i].isEmpty())
 						{
@@ -211,7 +211,7 @@ namespace TagPanelLoader
 						continue;
 					}
 
-					for (int32 i = categoryList.size() - 1; 0 <= i; --i)
+					for (int32 i = static_cast<int32>(categoryList.size()) - 1; 0 <= i; --i)
 					{
 						if (categoryList[i])
 						{
