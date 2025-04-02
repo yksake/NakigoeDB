@@ -17,10 +17,17 @@ bool ChildTagItem::update(const double leftX, const double rightX, const bool mo
 
 	bool isUpdated = false;
 
-	if (Cursor::OnClientRect() && m_isMouseOver && (region().leftClicked() || region().rightClicked()))
+	if (Cursor::OnClientRect() && m_isMouseOver)
 	{
-		m_isSelected = true;
-		isUpdated = true;
+		if ((region().leftClicked() && not KeyShift.pressed()) || region().rightClicked()) // 左クリックまたは右クリック
+		{
+			m_isSelected = true;
+			isUpdated = true;
+		}
+		else if (region().leftClicked() && KeyShift.pressed()) // Shift + 左クリック
+		{
+			m_isSelected = not m_isSelected;
+		}
 	}
 
 	if (m_isMouseOver)

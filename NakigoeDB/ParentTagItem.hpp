@@ -9,6 +9,11 @@ public:
 	ParentTagItem(const TagData& tagData, Array<std::unique_ptr<TagItem>>& children);
 	~ParentTagItem() = default;
 
+	/// @brief タグアイテムを更新します。
+	/// @param leftX 
+	/// @param rightX 
+	/// @param mouseOverEnabled 
+	/// @return 他のタグアイテムの選択状態を解除する場合 true
 	bool update(const double leftX, const double rightX, const bool mouseOverEnabled = true) override;
 	void draw(const int8 nestLevel = 0) const override;
 
