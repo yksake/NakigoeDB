@@ -1,4 +1,5 @@
-﻿#include "FilePanel.hpp"
+﻿#include <ranges>
+#include "FilePanel.hpp"
 
 bool FilePanel::update(const RectF& region, const bool enabled)
 {
@@ -363,14 +364,14 @@ void FilePanel::draw() const
 
 	const size_t startIndex = static_cast<size_t>(m_scrollLength / FileItem::Height);
 
-	for (size_t i = startIndex; i < m_fileItems.size(); ++i)
+	for (const auto& item : m_fileItems | std::views::drop(startIndex))
 	{
-		if (m_region.bottomY() < m_fileItems[i].region().topY())
+		if (m_region.bottomY() < item.region().topY())
 		{
 			break;
 		}
 
-		m_fileItems[i].draw();
+		item.draw();
 	}
 
 	m_scrollbar.draw();
@@ -575,32 +576,32 @@ Optional<std::weak_ptr<CryData>> FilePanel::getForcusedData() const
 
 Array<size_t> FilePanel::getSelectedIndex() const
 {
-	Array<size_t> selectedIndex;
+	Array<size_t> selectedIndexList;
 
-	for (size_t i = 0; i < m_fileItems.size(); ++i)
+	for (const auto& [i, item] : m_fileItems | std::views::enumerate)
 	{
-		if (m_fileItems[i].isSelected())
+		if (item.isSelected())
 		{
-			selectedIndex << i;
+			selectedIndexList << i;
 		}
 	}
 
-	return selectedIndex;
+	return selectedIndexList;
 }
 
 Array<std::weak_ptr<CryData>> FilePanel::getSelectedData() const
 {
-	Array<std::weak_ptr<CryData>> selectedData;
+	Array<std::weak_ptr<CryData>> selectedDataList;
 
 	for (const auto& item : m_fileItems)
 	{
 		if (item.isSelected())
 		{
-			selectedData << item.getData();
+			selectedDataList << item.getData();
 		}
 	}
 
-	return selectedData;
+	return selectedDataList;
 }
 
 Array<std::weak_ptr<CryData>> FilePanel::getDraggingData() const

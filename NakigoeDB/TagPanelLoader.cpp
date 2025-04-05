@@ -1,4 +1,5 @@
-﻿#include "TagPanelLoader.hpp"
+﻿#include <ranges>
+#include "TagPanelLoader.hpp"
 #include "ParentTagItem.hpp"
 #include "ChildTagItem.hpp"
 
@@ -119,11 +120,11 @@ namespace TagPanelLoader
 				if (not currentTag.category)
 				{
 					// 親グループのカテゴリIDを適用
-					for (int32 i = static_cast<int32>(categoryList.size()) - 1; 0 <= i; --i)
+					for (const auto& category : categoryList | std::views::reverse)
 					{
-						if (not categoryList[i].isEmpty())
+						if (category)
 						{
-							currentTag.category = categoryList[i];
+							currentTag.category = category;
 							break;
 						}
 					}
@@ -211,12 +212,12 @@ namespace TagPanelLoader
 						continue;
 					}
 
-					for (int32 i = static_cast<int32>(categoryList.size()) - 1; 0 <= i; --i)
+					for (const auto& category : categoryList | std::views::reverse)
 					{
-						if (categoryList[i])
+						if (category)
 						{
 							currentTag.value = currentTag.category;
-							currentTag.category = categoryList[i];
+							currentTag.category = category;
 							break;
 						}
 					}
