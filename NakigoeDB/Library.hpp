@@ -27,17 +27,6 @@ private:
 
 	std::unique_ptr<BaseDialog> m_dialog;
 
-	// ピカブイタグの表示オプション
-	// 0: 第7世代に含める
-	// 1: 他世代に含めない
-	// 2: 第8世代に含める
-	size_t m_lpleDisplayOption = 0;
-	// Legendsアルセウスタグの表示オプション
-	// 0: 第8世代に含める
-	// 1: 他世代に含めない
-	// 2: 第9世代に含める
-	size_t m_laDisplayOption = 0;
-
 	std::unique_ptr<ItemRightClickMenu> m_rightClickMenu;
 
 	std::unique_ptr<DraggedFilesIcon> m_dragIcon;

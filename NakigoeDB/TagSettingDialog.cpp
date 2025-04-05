@@ -1,10 +1,47 @@
 ﻿#include "TagSettingDialog.hpp"
 
-TagSettingDialog::TagSettingDialog(const size_t lpleDisplayOption, const size_t laDisplayOption, const std::function<void(size_t, size_t)>& closeFunc)
+TagSettingDialog::TagSettingDialog(const StringView lpleDisplayGen, const StringView laDisplayGen, const std::function<void(StringView, StringView)>& closeFunc)
 	: BaseDialog()
 {
-	m_lpleOptions.setIndex(lpleDisplayOption);
-	m_legendsArceusOptions.setIndex(laDisplayOption);
+	// ピカブイ
+	{
+		size_t index = 0;
+
+		if (not lpleDisplayGen)
+		{
+			index = 2;
+		}
+		else if (lpleDisplayGen == U"7")
+		{
+			index = 0;
+		}
+		else if (lpleDisplayGen == U"8")
+		{
+			index = 1;
+		}
+
+		m_lpleOptions.setIndex(index);
+	}
+
+	// Legendsアルセウス
+	{
+		size_t index = 0;
+
+		if (not laDisplayGen)
+		{
+			index = 2;
+		}
+		else if (laDisplayGen == U"8")
+		{
+			index = 0;
+		}
+		else if (laDisplayGen == U"9")
+		{
+			index = 1;
+		}
+
+		m_legendsArceusOptions.setIndex(index);
+	}
 
 	m_closeFunc = closeFunc;
 }
@@ -45,7 +82,27 @@ void TagSettingDialog::update()
 
 			if (lpleIndex && laIndex)
 			{
-				m_closeFunc(*lpleIndex, *laIndex);
+				String lpleDisplayGen, laDisplayGen;
+
+				if (lpleIndex == 0)
+				{
+					lpleDisplayGen = U"7";
+				}
+				else if (lpleIndex == 1)
+				{
+					lpleDisplayGen = U"8";
+				}
+
+				if (laIndex == 0)
+				{
+					laDisplayGen = U"8";
+				}
+				else if (laIndex == 1)
+				{
+					laDisplayGen = U"9";
+				}
+
+				m_closeFunc(lpleDisplayGen, laDisplayGen);
 			}
 
 			m_isActive = false;

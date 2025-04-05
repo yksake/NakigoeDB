@@ -5,7 +5,6 @@
 #include "TagSettingDialog.hpp"
 #include "AudioPathSettingDialog.hpp"
 #include "HoverText.hpp"
-#include "WindowStateChecker.hpp"
 
 Library::Library(const InitData& init)
 	: IScene(init)
@@ -34,7 +33,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.)-",
 	});
 
-	WindowStateChecker::Load();
+	getData().saveData.load();
 
 	// MenuBar
 	{
@@ -80,7 +79,7 @@ SOFTWARE.)-",
 
 void Library::update()
 {
-	WindowStateChecker::Update();
+	getData().saveData.update();
 
 	// ダイアログ
 	if (m_dialog)
@@ -209,13 +208,76 @@ void Library::updateMenuBar()
 		}
 		else if (item == MenuBarItemIndex{ 0, 1 }) // ファイル > タグの設定
 		{
-			auto closeFunc = [&](const size_t lpleIndex, const size_t laIndex)
+			auto closeFunc = [&](const StringView lpleDisplayGen, const StringView laDisplayGen)
 			{
-				m_lpleDisplayOption = lpleIndex;
-				m_laDisplayOption = laIndex;
+				String prevLPLE = getData().saveData.getLPLEDisplayGen();
+				String prevLA = getData().saveData.getLADisplayGen();
+
+				getData().saveData.setDisplayGen(lpleDisplayGen, laDisplayGen);
+
+				// 表示中のタグに変更があったら再検索
+				{
+					Array<TagData> changedGenerations;
+					const String category = U"Gen";
+
+					const String lple = getData().saveData.getLPLEDisplayGen();
+					if (prevLPLE != lple)
+					{
+						if (prevLPLE)
+						{
+							changedGenerations << TagData{ .category = category, .value = prevLPLE };
+						}
+
+						if (lple)
+						{
+							changedGenerations << TagData{ .category = category, .value =lple };
+						}
+					}
+
+					const String la = getData().saveData.getLADisplayGen();
+					if (prevLA != la)
+					{
+						if (prevLA)
+						{
+							changedGenerations << TagData{ .category = category, .value = prevLA };
+						}
+
+						if (la)
+						{
+							changedGenerations << TagData{ .category = category, .value = la };
+						}
+					}
+
+					if (not changedGenerations)
+					{
+						return;
+					}
+
+					Array<TagData> filters = m_tagPanel.getSelectedTags();
+
+					for (const auto& filter : filters)
+					{
+						if (filter.category != category)
+						{
+							continue;
+						}
+
+						for (const auto& changed : changedGenerations)
+						{
+							if (filter == changed)
+							{
+								const auto& [andFilters, orFilters] = separateFilters(filters);
+
+								m_filePanel.filter(getData().cries, andFilters, orFilters);
+
+								return;
+							}
+						}
+					}
+				}
 			};
 
-			m_dialog = std::make_unique<TagSettingDialog>(m_lpleDisplayOption, m_laDisplayOption, closeFunc);
+			m_dialog = std::make_unique<TagSettingDialog>(getData().saveData.getLPLEDisplayGen(), getData().saveData.getLADisplayGen(), closeFunc);
 		}
 		else if (item == MenuBarItemIndex{ 0, 2 }) // ファイル > 終了
 		{
@@ -396,9 +458,6 @@ std::pair<Array<TagData>, Array<TagData>> Library::separateFilters(const Array<T
 {
 	Array<TagData> andFilters, orFilters;
 
-	const int32 lpleDisplayGen = 8 + static_cast<int32>(m_lpleDisplayOption) - 1;
-	const int32 laDisplayGen = 10 + static_cast<int32>(m_laDisplayOption) - 1;
-
 	// ピカブイ、Legendsアルセウスを他世代に含める
 	for (const auto& filter : filters)
 	{
@@ -410,22 +469,22 @@ std::pair<Array<TagData>, Array<TagData>> Library::separateFilters(const Array<T
 
 		bool isHit = false;
 
-		if ((m_lpleDisplayOption != 1) && (filter.value == Format(lpleDisplayGen)))
+		if (getData().saveData.getLPLEDisplayGen() == filter.value)
 		{
-			TagData lple = filter;
-			lple.value = Format(lpleDisplayGen - m_lpleDisplayOption + 1);
+			TagData lpleTag = filter;
+			lpleTag.value = U"lple";
 
-			orFilters << lple;
+			orFilters << lpleTag;
 
 			isHit = true;
 		}
 
-		if ((m_laDisplayOption != 1) && (filter.value == Format(laDisplayGen)))
+		if (getData().saveData.getLADisplayGen() == filter.value)
 		{
-			TagData la = filter;
-			la.value = Format(laDisplayGen - m_laDisplayOption + 1);
+			TagData laTag = filter;
+			laTag.value = U"la";
 
-			orFilters << la;
+			orFilters << laTag;
 
 			isHit = true;
 		}

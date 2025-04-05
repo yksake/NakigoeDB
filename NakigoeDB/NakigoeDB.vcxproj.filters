@@ -154,6 +154,9 @@
     <Filter Include="Data">
       <UniqueIdentifier>{f8a23cb2-c33f-4e18-9542-aee225abfe29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Saves">
+      <UniqueIdentifier>{872c8cd2-5071-4c3b-a11a-9d90876d5037}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scrollbar.cpp">
@@ -222,9 +225,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WindowStateChecker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DraggedFilesIcon.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -233,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="AudioPathSettingDialog.cpp">
       <Filter>UI\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveData.cpp">
+      <Filter>Saves</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -974,9 +977,6 @@
     <ClInclude Include="Array.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowStateChecker.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DraggedFilesIcon.hpp">
       <Filter>UI</Filter>
     </ClInclude>
@@ -985,6 +985,9 @@
     </ClInclude>
     <ClInclude Include="AudioPathSettingDialog.hpp">
       <Filter>UI\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveData.hpp">
+      <Filter>Saves</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
