@@ -1,8 +1,24 @@
 ﻿#include "Scrollbar.hpp"
 
-Scrollbar::Scrollbar(const ColorPalette& palette)
+Scrollbar::Scrollbar(const double width, const ColorPalette& palette)
+	: m_width(width)
+	, m_r(width * 0.5)
+	, m_palette(palette)
 {
-	m_palette = palette;
+
+}
+
+Scrollbar::Scrollbar(const double width)
+	: m_width(width)
+	, m_r(width * 0.5)
+{
+
+}
+
+Scrollbar::Scrollbar(const ColorPalette& palette)
+	: m_palette(palette)
+{
+	
 }
 
 
@@ -78,13 +94,13 @@ void Scrollbar::draw() const
 
 RoundRect Scrollbar::bar() const
 {
-	return RoundRect{ (m_viewArea.rightX() - Width - m_margin.left), m_posY, Width, m_height, m_r };
+	return RoundRect{ (m_viewArea.rightX() - m_width - m_margin.left), m_posY, m_width, m_height, m_r };
 }
 
 RectF Scrollbar::barArea() const
 {
-	const double x = m_viewArea.rightX() - Width - m_margin.getHorizontal();
-	const double w = Width + m_margin.getHorizontal();
+	const double x = m_viewArea.rightX() - m_width - m_margin.getHorizontal();
+	const double w = m_width + m_margin.getHorizontal();
 
 	return RectF{ x, m_viewArea.topY(), w, m_viewArea.h };
 }

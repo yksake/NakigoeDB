@@ -13,6 +13,8 @@ public:
 	};
 
 	Scrollbar() = default;
+	Scrollbar(const double width, const ColorPalette& palette);
+	Scrollbar(const double width);
 	Scrollbar(const ColorPalette& palette);
 
 	/// @brief スクロールバーを更新します。
@@ -45,11 +47,11 @@ public:
 
 private:
 	double m_posY = 0.0;
-	static constexpr double Width = 16.0;
+	double m_width = 16.0;
 	double m_height = 0.0;
 	static constexpr double MinHeight = 10.0;
 	Margin m_margin = { 3.0 };
-	double m_r = Width * 0.5;
+	double m_r = m_width * 0.5;
 
 	// スクロール対象の表示領域
 	RectF m_viewArea = { Vec2::Zero(), SizeF::Zero() };

@@ -142,20 +142,20 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{dece4ef9-a89b-451a-91bf-d85748d18dc2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\TagPanel">
-      <UniqueIdentifier>{feb2c54e-b4dd-420e-915c-426aa920f869}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\FilePanel">
-      <UniqueIdentifier>{78e07c73-f76d-49ff-814c-aceb481bada2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\Dialogs">
-      <UniqueIdentifier>{ce9f807c-e25f-4dd5-b7d6-8d11d89dec05}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Data">
       <UniqueIdentifier>{f8a23cb2-c33f-4e18-9542-aee225abfe29}</UniqueIdentifier>
     </Filter>
     <Filter Include="Saves">
       <UniqueIdentifier>{872c8cd2-5071-4c3b-a11a-9d90876d5037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{ce9f807c-e25f-4dd5-b7d6-8d11d89dec05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FilePanel">
+      <UniqueIdentifier>{78e07c73-f76d-49ff-814c-aceb481bada2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TagPanel">
+      <UniqueIdentifier>{feb2c54e-b4dd-420e-915c-426aa920f869}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,22 +175,22 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="ChildTagItem.cpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClCompile>
     <ClCompile Include="ParentTagItem.cpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClCompile>
     <ClCompile Include="TagItem.cpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClCompile>
     <ClCompile Include="TagPanel.cpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClCompile>
     <ClCompile Include="FileItem.cpp">
-      <Filter>UI\FilePanel</Filter>
+      <Filter>FilePanel</Filter>
     </ClCompile>
     <ClCompile Include="FilePanel.cpp">
-      <Filter>UI\FilePanel</Filter>
+      <Filter>FilePanel</Filter>
     </ClCompile>
     <ClCompile Include="HoverText.cpp">
       <Filter>UI</Filter>
@@ -199,10 +199,10 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="AddFilesDialog.cpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="TagSettingDialog.cpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="TagData.cpp">
       <Filter>Data</Filter>
@@ -214,7 +214,7 @@
       <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="TagPanelLoader.cpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClCompile>
     <ClCompile Include="Array.cpp">
       <Filter>Source Files</Filter>
@@ -232,10 +232,16 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="AudioPathSettingDialog.cpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="SaveData.cpp">
       <Filter>Saves</Filter>
+    </ClCompile>
+    <ClCompile Include="PulldownMenu.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeFilteringDialog.cpp">
+      <Filter>Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -927,19 +933,19 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ChildTagItem.hpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClInclude>
     <ClInclude Include="ParentTagItem.hpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClInclude>
     <ClInclude Include="TagItem.hpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClInclude>
     <ClInclude Include="FileItem.hpp">
-      <Filter>UI\FilePanel</Filter>
+      <Filter>FilePanel</Filter>
     </ClInclude>
     <ClInclude Include="FilePanel.hpp">
-      <Filter>UI\FilePanel</Filter>
+      <Filter>FilePanel</Filter>
     </ClInclude>
     <ClInclude Include="HoverText.hpp">
       <Filter>UI</Filter>
@@ -948,13 +954,13 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="AddFilesDialog.hpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="BaseDialog.hpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="TagSettingDialog.hpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="CryData.hpp">
       <Filter>Data</Filter>
@@ -966,13 +972,13 @@
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="TagPanel.hpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClInclude>
     <ClInclude Include="TagLoader.hpp">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="TagPanelLoader.hpp">
-      <Filter>UI\TagPanel</Filter>
+      <Filter>TagPanel</Filter>
     </ClInclude>
     <ClInclude Include="Array.hpp">
       <Filter>Header Files</Filter>
@@ -984,10 +990,16 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="AudioPathSettingDialog.hpp">
-      <Filter>UI\Dialogs</Filter>
+      <Filter>Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="SaveData.hpp">
       <Filter>Saves</Filter>
+    </ClInclude>
+    <ClInclude Include="PulldownMenu.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeFilteringDialog.hpp">
+      <Filter>Dialogs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

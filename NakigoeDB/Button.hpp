@@ -26,7 +26,7 @@ public:
 	Button(const StringView text, const ColorPalette& palette);
 
 	bool update(const Vec2& pos, const Optional<double>& width = unspecified, const bool enabled = true);
-	void draw() const;
+	void draw(const bool mouseOverEnabled = true) const;
 
 	ColorPalette getPalette() const;
 	void setPalette(const ColorPalette& palette);

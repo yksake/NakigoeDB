@@ -42,4 +42,40 @@ struct TagData
 
 		return this->value < tag.value;
 	}
+
+	friend void Formatter(FormatData& formatData, const TagData& value)
+	{
+		formatData.string += U"({}, {}, {})"_fmt(value.category, value.value, value.customName);
+	}
+
+	template <class CharType>
+	friend std::basic_istream<CharType>& operator >>(std::basic_istream<CharType>& input, TagData& value)
+	{
+		input.ignore(1);
+
+		value.category.clear();
+		while (input && input.peek() != U',')
+		{
+			value.category += input.get();
+		}
+
+		input.ignore(2);
+
+		value.value.clear();
+		while (input && input.peek() != U',')
+		{
+			value.value += input.get();
+		}
+
+		input.ignore(2);
+
+		while (input && input.peek() != U')')
+		{
+			value.customName += input.get();
+		}
+
+		input.ignore(1);
+
+		return input;
+	}
 };

@@ -4,6 +4,7 @@
 #include "AddFilesDialog.hpp"
 #include "TagSettingDialog.hpp"
 #include "AudioPathSettingDialog.hpp"
+#include "TypeFilteringDialog.hpp"
 #include "HoverText.hpp"
 
 Library::Library(const InitData& init)
@@ -35,12 +36,12 @@ SOFTWARE.)-",
 
 	getData().saveData.load();
 
-	// MenuBar
+	// メニューバーを初期化
 	{
 		const Array<std::pair<String, Array<String>>> items
 		{
-			{ U"ファイル", { U"ファイル登録", U"世代の表示設定", U"終了"}},
-			{ U"表示", { U"旧鳴き声のみ表示", U"新鳴き声のみ表示", U"全鳴き声を表示" } },
+			{ U"ファイル", { U"ファイル登録", U"世代の表示設定", U"終了"} },
+			{ U"表示", { U"旧鳴き声のみ表示", U"新鳴き声のみ表示", U"全鳴き声を表示", U"タイプで絞り込み" } },
 			{ U"ヘルプ", { U"GitHub", U"ライセンス", U"バージョン" } }
 		};
 		m_menubar = MenuBar{ items };
@@ -57,7 +58,31 @@ SOFTWARE.)-",
 		};
 		m_menubar.setColorPalette(palette);
 
-		m_menubar.setItemChecked(MenuBarItemIndex{ 1, 0 }, true);
+		// 鳴き声の新旧フィルタリングを適用
+		{
+			MenuBarItemIndex itemIndex = { 1, 0 };
+			const auto cryVerFilter = getData().saveData.getCryVerFilter();
+
+			if (not cryVerFilter)
+			{
+				itemIndex = { 1, 2 };
+			}
+			else if (cryVerFilter == 1)
+			{
+				itemIndex = { 1, 0 };
+			}
+			else if (cryVerFilter == 2)
+			{
+				itemIndex = { 1, 1 };
+			}
+
+			m_menubar.setItemChecked(itemIndex, true);
+		}
+
+		if (getData().saveData.getTypeFilter())
+		{
+			m_menubar.setItemChecked(MenuBarItemIndex{ 1, 3 }, true);
+		}
 	}
 
 	getData().basicTags = TagLoader::LoadMainTagNames();
@@ -71,8 +96,7 @@ SOFTWARE.)-",
 
 	m_audioPlayer = AudioPlayer{ Vec2{ 0.0, MenuBar::MenuBarHeight } };
 
-	TagData cryVersion{ .category = U"CryVer", .value = U"1" };
-	m_filePanel.filter(getData().cries, { cryVersion });
+	filterItem();
 
 	m_tagPanel.load(getData().basicTags, getData().userTags);
 }
@@ -124,13 +148,7 @@ void Library::update()
 	// タグパネルを更新
 	if (m_tagPanel.update(tagArea(), not isDialogActive))
 	{
-		// 選択タグで絞り込み
-
-		Array<TagData> filters = m_tagPanel.getSelectedTags();
-
-		const auto& [andFilters, orFilters] = separateFilters(filters);
-
-		m_filePanel.filter(getData().cries, andFilters, orFilters);
+		filterItem();
 	}
 
 	// タグへのドロップ
@@ -253,7 +271,7 @@ void Library::updateMenuBar()
 						return;
 					}
 
-					Array<TagData> filters = m_tagPanel.getSelectedTags();
+					const Array<TagData> filters = m_tagPanel.getSelectedTags();
 
 					for (const auto& filter : filters)
 					{
@@ -292,9 +310,8 @@ void Library::updateMenuBar()
 					.setItemChecked(MenuBarItemIndex{ 1, 1 }, false)
 					.setItemChecked(MenuBarItemIndex{ 1, 2 }, false);
 
-				Array<TagData> filter = m_tagPanel.getSelectedTags();
-				filter << TagData{ .category = U"CryVer", .value = U"1" };
-				m_filePanel.filter(getData().cries, filter);
+				getData().saveData.setCryVerFilter(1);
+				filterItem();
 			}
 		}
 		else if (item == MenuBarItemIndex{ 1, 1 }) // 表示 > 新鳴き声
@@ -306,9 +323,8 @@ void Library::updateMenuBar()
 					.setItemChecked(MenuBarItemIndex{ 1, 1 }, true)
 					.setItemChecked(MenuBarItemIndex{ 1, 2 }, false);
 
-				Array<TagData> filter = m_tagPanel.getSelectedTags();
-				filter << TagData{ .category = U"CryVer", .value = U"2" };
-				m_filePanel.filter(getData().cries, filter);
+				getData().saveData.setCryVerFilter(2);
+				filterItem();
 			}
 		}
 		else if (item == MenuBarItemIndex{ 1, 2 }) // 表示 > 全鳴き声
@@ -320,10 +336,25 @@ void Library::updateMenuBar()
 					.setItemChecked(MenuBarItemIndex{ 1, 1 }, false)
 					.setItemChecked(MenuBarItemIndex{ 1, 2 }, true);
 
-				Array<TagData> filter = m_tagPanel.getSelectedTags();
-				filter << TagData{ .category = U"CryVer", .value = U"0" };
-				m_filePanel.filter(getData().cries, filter);
+				getData().saveData.setCryVerFilter(none);
+				filterItem();
 			}
+		}
+		else if (item == MenuBarItemIndex{ 1, 3 }) // 表示 > タイプで絞り込み
+		{
+			auto closeFunc = [&](const Optional<TagData>& filter)
+			{
+				if (getData().saveData.getTypeFilter() != filter)
+				{
+					getData().saveData.setTypeFilter(filter);
+
+					filterItem();
+				}
+
+				m_menubar.setItemChecked(MenuBarItemIndex{ 1, 3 }, getData().saveData.getTypeFilter().has_value());
+			};
+
+			m_dialog = std::make_unique<TypeFilteringDialog>(TagData{}, closeFunc);
 		}
 		else if (item == MenuBarItemIndex{ 2, 0 }) // ヘルプ > GitHub
 		{
@@ -391,29 +422,18 @@ void Library::registerFile(const int32 cryVer)
 
 	CryLoader::SaveAudioPathList(getData().cries);
 
-	Array<TagData> filter = m_tagPanel.getSelectedTags();
-
-	TagData cryVerFilter{ .category = U"CryVer", .value = U"0" };
-	if (m_menubar.getItemChecked(MenuBarItemIndex{ 1, 0 }))
-	{
-		cryVerFilter.value = U"1";
-	}
-	else if (m_menubar.getItemChecked(MenuBarItemIndex{ 1, 1 }))
-	{
-		cryVerFilter.value = U"2";
-	}
-
-	filter << cryVerFilter;
-
-	m_filePanel.filter(getData().cries, filter);
+	filterItem();
 }
 
 
 void Library::draw() const
 {
+	const bool isMouseOverMenuBar = (Cursor::PosF().y < MenuBar::MenuBarHeight) || m_menubar.itemBoxMouseOver();
+	const bool isDialogActive = m_dialog && m_dialog->isActive();
+
 	m_audioPlayer.draw();
 
-	m_tagPanel.draw();
+	m_tagPanel.draw(not isMouseOverMenuBar && not isDialogActive);
 
 	m_filePanel.draw();
 
@@ -426,7 +446,6 @@ void Library::draw() const
 
 	m_menubar.draw();
 
-	const bool isDialogActive = m_dialog && m_dialog->isActive();
 	if (not m_menubar.itemBoxMouseOver() && not isDialogActive && not m_dragIcon && not m_rightClickMenu && Window::GetState().focused)
 	{
 		const String mouseOverText = m_filePanel.getMouseOverText();
@@ -499,23 +518,28 @@ std::pair<Array<TagData>, Array<TagData>> Library::separateFilters(const Array<T
 		}
 	}
 
-	// 鳴き声のバージョンでフィルタリング
-	if (not filters.contains_if([](const TagData& tag) { return tag.category == U"CryVer"; }))
+	// 鳴き声のバージョンの表示設定でフィルタリング
+	if (not filters.contains_if([](const TagData& tag) { return tag.category == U"CryVer"; }) && getData().saveData.getCryVerFilter().has_value())
 	{
-		TagData cryVer{ .category = U"CryVer", .value = U"0" };
-		if (m_menubar.getItemChecked(MenuBarItemIndex{ 1, 0 }))
-		{
-			cryVer.value = U"1";
-		}
-		else if (m_menubar.getItemChecked(MenuBarItemIndex{ 1, 1 }))
-		{
-			cryVer.value = U"2";
-		}
+		andFilters << TagData{ .category = U"CryVer", .value = Format(*getData().saveData.getCryVerFilter()) };
+	}
 
-		andFilters << cryVer;
+	// タイプの絞り込み設定でフィルタリング
+	if (getData().saveData.getTypeFilter())
+	{
+		andFilters << *getData().saveData.getTypeFilter();
 	}
 
 	return { andFilters, orFilters };
+}
+
+void Library::filterItem()
+{
+	Array<TagData> filters = m_tagPanel.getSelectedTags();
+
+	const auto& [andFilters, orFilters] = separateFilters(filters);
+
+	m_filePanel.filter(getData().cries, andFilters, orFilters);
 }
 
 

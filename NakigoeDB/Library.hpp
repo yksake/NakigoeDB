@@ -35,6 +35,7 @@ private:
 	void registerFile(const int32 cryVer);
 
 	std::pair<Array<TagData>, Array<TagData>> separateFilters(const Array<TagData>& filters) const;
+	void filterItem();
 
 	RectF fileArea() const;
 	RectF tagArea() const;

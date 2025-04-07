@@ -17,6 +17,17 @@ namespace NakigoeDB
 		json[U"DisplayGen"][U"LPLE"] = m_lpleDisplayGen;
 		json[U"DisplayGen"][U"LA"] = m_laDisplayGen;
 
+		if (m_cryVerFilter)
+		{
+			json[U"Filter"][U"CryVer"] = *m_cryVerFilter;
+		}
+		else
+		{
+			json[U"Filter"][U"CryVer"] = U"none";
+		}
+
+		json[U"Filter"][U"Type"] = m_typeFilter ? Format(*m_typeFilter) : U"none";
+
 		return json.save(SavePath);
 	}
 
@@ -29,6 +40,12 @@ namespace NakigoeDB
 			m_windowPos = Window::GetPos();
 			m_windowSize = state.virtualSize;
 			m_isMaximized = state.maximized;
+
+			m_lpleDisplayGen.clear();
+			m_laDisplayGen.clear();
+
+			m_cryVerFilter = 1;
+			m_typeFilter = none;
 		}
 
 		if (not FileSystem::IsFile(SavePath))
@@ -44,17 +61,19 @@ namespace NakigoeDB
 
 		// Save.json のバージョン
 		const int8 version = json[U"JSONVersion"].get<int8>();
-		if (SaveVersion != version)
+
+		if (version == 1)
+		{
+			loadVersion1(json);
+		}
+		else if(version == SaveVersion)
+		{
+			loadVersion2(json);
+		}
+		else
 		{
 			return false;
 		}
-
-		m_windowPos = json[U"Window"][U"Pos"].get<Point>();
-		m_windowSize = json[U"Window"][U"Size"].get<Size>();
-		m_isMaximized = json[U"Window"][U"Maximized"].get<bool>();
-
-		m_lpleDisplayGen = json[U"DisplayGen"][U"LPLE"].getString();
-		m_laDisplayGen = json[U"DisplayGen"][U"LA"].getString();
 
 		// バリデーションチェック
 		{
@@ -101,6 +120,29 @@ namespace NakigoeDB
 		}
 
 		return true;
+	}
+
+	void SaveData::loadVersion1(const JSON& json)
+	{
+		m_windowPos = json[U"Window"][U"Pos"].get<Point>();
+		m_windowSize = json[U"Window"][U"Size"].get<Size>();
+		m_isMaximized = json[U"Window"][U"Maximized"].get<bool>();
+
+		m_lpleDisplayGen = json[U"DisplayGen"][U"LPLE"].getString();
+		m_laDisplayGen = json[U"DisplayGen"][U"LA"].getString();
+	}
+
+	void SaveData::loadVersion2(const JSON& json)
+	{
+		m_windowPos = json[U"Window"][U"Pos"].get<Point>();
+		m_windowSize = json[U"Window"][U"Size"].get<Size>();
+		m_isMaximized = json[U"Window"][U"Maximized"].get<bool>();
+
+		m_lpleDisplayGen = json[U"DisplayGen"][U"LPLE"].getString();
+		m_laDisplayGen = json[U"DisplayGen"][U"LA"].getString();
+
+		m_cryVerFilter = json[U"Filter"][U"CryVer"].getOpt<int32>();
+		m_typeFilter = json[U"Filter"][U"Type"].getOpt<TagData>();
 	}
 
 
@@ -166,6 +208,41 @@ namespace NakigoeDB
 
 		m_lpleDisplayGen = lple;
 		m_laDisplayGen = la;
+
+		return save();
+	}
+
+
+	Optional<int32> SaveData::getCryVerFilter() const
+	{
+		return m_cryVerFilter;
+	}
+
+	bool SaveData::setCryVerFilter(const Optional<int32>& cryVerFilter)
+	{
+		if (m_cryVerFilter == cryVerFilter)
+		{
+			return false;
+		}
+
+		m_cryVerFilter = cryVerFilter;
+
+		return save();
+	}
+
+	Optional<TagData> SaveData::getTypeFilter() const
+	{
+		return m_typeFilter;
+	}
+
+	bool SaveData::setTypeFilter(const Optional<TagData>& typeFilter)
+	{
+		if (m_typeFilter == typeFilter)
+		{
+			return false;
+		}
+
+		m_typeFilter = typeFilter;
 
 		return save();
 	}

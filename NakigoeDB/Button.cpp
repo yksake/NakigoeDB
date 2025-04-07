@@ -62,8 +62,10 @@ bool Button::update(const Vec2& pos, const Optional<double>& width, const bool e
 	return isPushed;
 }
 
-void Button::draw() const
+void Button::draw(const bool mouseOverEnabled) const
 {
+	const bool mouseOver = region().mouseOver() && mouseOverEnabled;
+
 	Color baseColor = m_palette.baseColor;
 	Color textColor = m_palette.textColor;
 	Color frameColor = m_palette.frameColor;
@@ -75,14 +77,14 @@ void Button::draw() const
 		textColor = m_palette.disabledTextColor;
 		frameColor = m_palette.disabledFrameColor;
 	}
-	else if (m_isPressed && region().mouseOver())
+	else if (m_isPressed && mouseOver)
 	{
 		baseColor = m_palette.pressedBaseColor;
 		textColor = m_palette.pressedTextColor;
 		frameColor = m_palette.pressedFrameColor;
 		thickness *= 1.5;
 	}
-	else if (m_isPressed || region().mouseOver())
+	else if (m_isPressed || mouseOver)
 	{
 		baseColor = m_palette.mouseOverBaseColor;
 		textColor = m_palette.mouseOverTextColor;

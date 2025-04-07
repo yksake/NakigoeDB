@@ -12,7 +12,7 @@ public:
 	void load(const Array<TagData>& basicTags, const Array<TagData>& userTags);
 
 	bool update(const RectF& region, const bool enabled = true);
-	void draw() const;
+	void draw(const bool mouseOverEnabled = true) const;
 
 	RectF region() const;
 

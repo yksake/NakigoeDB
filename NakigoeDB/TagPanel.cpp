@@ -139,7 +139,7 @@ bool TagPanel::update(const RectF& region, const bool enabled)
 	return isUpdated;
 }
 
-void TagPanel::draw() const
+void TagPanel::draw(const bool mouseOverEnabled) const
 {
 	m_region.draw(Color{ 128 });
 
@@ -156,7 +156,7 @@ void TagPanel::draw() const
 
 	headerRegion().draw(Color{ 50 });
 
-	m_resetButton.draw();
+	m_resetButton.draw(mouseOverEnabled);
 }
 
 
