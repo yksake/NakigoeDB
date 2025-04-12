@@ -44,9 +44,9 @@ SOFTWARE.)-",
 			{ U"表示", { U"旧鳴き声のみ表示", U"新鳴き声のみ表示", U"全鳴き声を表示", U"タイプで絞り込み" } },
 			{ U"ヘルプ", { U"GitHub", U"ライセンス", U"バージョン" } }
 		};
-		m_menubar = MenuBar{ items };
+		m_menubar = SimpleMenuBar{ items };
 
-		MenuBar::ColorPalette palette
+		SimpleMenuBar::ColorPalette palette
 		{
 			.menuBarColor = Color{ 50 },
 			.activeMenuColor = Color{ 70 },
@@ -94,7 +94,7 @@ SOFTWARE.)-",
 		getData().cries << std::make_shared<CryData>(cry);
 	}
 
-	m_audioPlayer = AudioPlayer{ Vec2{ 0.0, MenuBar::MenuBarHeight } };
+	m_audioPlayer = AudioPlayer{ Vec2{ 0.0, SimpleMenuBar::MenuBarHeight } };
 
 	filterItem();
 
@@ -122,7 +122,7 @@ void Library::update()
 	// 右クリックメニュー
 	if (m_rightClickMenu)
 	{
-		const RectF clip = Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, 0);
+		const RectF clip = Scene::Rect().stretched(-SimpleMenuBar::MenuBarHeight, 0, 0, 0);
 
 		if (m_rightClickMenu->update(clip))
 		{
@@ -172,7 +172,7 @@ void Library::update()
 	{
 		m_rightClickMenu = std::make_unique<ItemRightClickMenu>(*rightClicked, Cursor::PosF());
 
-		const RectF clip = Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, 0);
+		const RectF clip = Scene::Rect().stretched(-SimpleMenuBar::MenuBarHeight, 0, 0, 0);
 		m_rightClickMenu->update(clip);
 	}
 
@@ -428,7 +428,7 @@ void Library::registerFile(const int32 cryVer)
 
 void Library::draw() const
 {
-	const bool isMouseOverMenuBar = (Cursor::PosF().y < MenuBar::MenuBarHeight) || m_menubar.itemBoxMouseOver();
+	const bool isMouseOverMenuBar = (Cursor::PosF().y < SimpleMenuBar::MenuBarHeight) || m_menubar.mouseOver();
 	const bool isDialogActive = m_dialog && m_dialog->isActive();
 
 	m_audioPlayer.draw();
@@ -446,7 +446,7 @@ void Library::draw() const
 
 	m_menubar.draw();
 
-	if (not m_menubar.itemBoxMouseOver() && not isDialogActive && not m_dragIcon && not m_rightClickMenu && Window::GetState().focused)
+	if (not m_menubar.mouseOver() && not isDialogActive && not m_dragIcon && not m_rightClickMenu && Window::GetState().focused)
 	{
 		const String mouseOverText = m_filePanel.getMouseOverText();
 
@@ -545,12 +545,12 @@ void Library::filterItem()
 
 RectF Library::fileArea() const
 {
-	return Scene::Rect().stretched(-MenuBar::MenuBarHeight, 0, 0, -static_cast<int32>(m_sidePanelWidth));
+	return Scene::Rect().stretched(-SimpleMenuBar::MenuBarHeight, 0, 0, -static_cast<int32>(m_sidePanelWidth));
 }
 
 RectF Library::tagArea() const
 {
-	const double y = MenuBar::MenuBarHeight + AudioPlayer::Height;
+	const double y = SimpleMenuBar::MenuBarHeight + AudioPlayer::Height;
 	const double h = Scene::Height() - y;
 
 	return RectF{ 0.0, y, m_sidePanelWidth, h };

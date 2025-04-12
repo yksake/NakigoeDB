@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Common.hpp"
-#include "MenuBar.hpp"
 #include "FilePanel.hpp"
 #include "TagPanel.hpp"
 #include "AudioPlayer.hpp"
@@ -17,7 +16,7 @@ public:
 	void draw() const override;
 
 private:
-	MenuBar m_menubar;
+	SimpleMenuBar m_menubar;
 
 	FilePanel m_filePanel;
 

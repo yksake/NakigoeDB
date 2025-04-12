@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35806.99 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NakigoeDB", "NakigoeDB\NakigoeDB.vcxproj", "{17283405-9CE3-43B0-A565-8AD080F31EC7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NakigoeDB", "NakigoeDB\NakigoeDB.vcxproj", "{D0C4C45A-E8A9-4773-B5DC-6C70A8C152AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{17283405-9CE3-43B0-A565-8AD080F31EC7}.Debug|x64.ActiveCfg = Debug|x64
-		{17283405-9CE3-43B0-A565-8AD080F31EC7}.Debug|x64.Build.0 = Debug|x64
-		{17283405-9CE3-43B0-A565-8AD080F31EC7}.Release|x64.ActiveCfg = Release|x64
-		{17283405-9CE3-43B0-A565-8AD080F31EC7}.Release|x64.Build.0 = Release|x64
+		{D0C4C45A-E8A9-4773-B5DC-6C70A8C152AB}.Debug|x64.ActiveCfg = Debug|x64
+		{D0C4C45A-E8A9-4773-B5DC-6C70A8C152AB}.Debug|x64.Build.0 = Debug|x64
+		{D0C4C45A-E8A9-4773-B5DC-6C70A8C152AB}.Release|x64.ActiveCfg = Release|x64
+		{D0C4C45A-E8A9-4773-B5DC-6C70A8C152AB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D89ADED4-FE57-43BF-AC15-6E8DC07BCD6E}
+		SolutionGuid = {33DDAE19-E247-4FAE-83F2-03855057A1A6}
 	EndGlobalSection
 EndGlobal

@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{17283405-9ce3-43b0-a565-8ad080f31ec7}</ProjectGuid>
+    <ProjectGuid>{d0c4c45a-e8a9-4773-b5dc-6c70a8c152ab}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NakigoeDB</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -49,16 +49,16 @@
     <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\Debug\Intermediate\</IntDir>
     <TargetName>$(ProjectName)(debug)</TargetName>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)App</LocalDebuggerWorkingDirectory>
-    <IncludePath>$(SIV3D_0_6_15)\include;$(SIV3D_0_6_15)\include\ThirdParty;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SIV3D_0_6_15)\lib\Windows;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SIV3D_0_6_16)\include;$(SIV3D_0_6_16)\include\ThirdParty;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SIV3D_0_6_16)\lib\Windows;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Intermediate\$(ProjectName)\Release\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\Release\Intermediate\</IntDir>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)App</LocalDebuggerWorkingDirectory>
-    <IncludePath>$(SIV3D_0_6_15)\include;$(SIV3D_0_6_15)\include\ThirdParty;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SIV3D_0_6_15)\lib\Windows;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SIV3D_0_6_16)\include;$(SIV3D_0_6_16)\include\ThirdParty;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SIV3D_0_6_16)\lib\Windows;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AddFilesDialog.cpp" />
+    <ClCompile Include="Array.cpp" />
     <ClCompile Include="AudioPathSettingDialog.cpp" />
     <ClCompile Include="AudioPlayer.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -128,23 +129,21 @@
     <ClCompile Include="ItemRightClickMenu.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="ParentTagItem.cpp" />
     <ClCompile Include="PulldownMenu.cpp" />
     <ClCompile Include="RadioButtons.cpp" />
     <ClCompile Include="SaveData.cpp" />
-    <ClCompile Include="TagData.cpp" />
     <ClCompile Include="Scrollbar.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TagLoader.cpp" />
+    <ClCompile Include="TagData.cpp" />
     <ClCompile Include="TagItem.cpp" />
+    <ClCompile Include="TagLoader.cpp" />
     <ClCompile Include="TagPanel.cpp" />
     <ClCompile Include="TagPanelLoader.cpp" />
     <ClCompile Include="TagSettingDialog.cpp" />
-    <ClCompile Include="Array.cpp" />
     <ClCompile Include="TypeFilteringDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -369,7 +368,6 @@
     <ClInclude Include="Library.hpp" />
     <ClInclude Include="Margin.hpp" />
     <ClInclude Include="Margin.ipp" />
-    <ClInclude Include="MenuBar.hpp" />
     <ClInclude Include="ParentTagItem.hpp" />
     <ClInclude Include="PulldownMenu.hpp" />
     <ClInclude Include="RadioButtons.hpp" />
@@ -377,8 +375,8 @@
     <ClInclude Include="Scrollbar.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TagData.hpp" />
-    <ClInclude Include="TagLoader.hpp" />
     <ClInclude Include="TagItem.hpp" />
+    <ClInclude Include="TagLoader.hpp" />
     <ClInclude Include="TagPanel.hpp" />
     <ClInclude Include="TagPanelLoader.hpp" />
     <ClInclude Include="TagSettingDialog.hpp" />
