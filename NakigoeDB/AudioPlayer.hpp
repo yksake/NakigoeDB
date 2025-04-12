@@ -18,7 +18,9 @@ public:
 	RectF region() const;
 
 private:
-	std::weak_ptr<CryData> m_data;
+	String m_title;
+	String m_subTitle;
+	FilePath m_path;
 	Audio m_audio;
 
 	Vec2 m_pos = Vec2::Zero();
