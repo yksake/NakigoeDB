@@ -354,7 +354,7 @@ void Library::updateMenuBar()
 				m_menubar.setItemChecked(MenuBarItemIndex{ 1, 3 }, getData().saveData.getTypeFilter().has_value());
 			};
 
-			m_dialog = std::make_unique<TypeFilteringDialog>(TagData{}, closeFunc);
+			m_dialog = std::make_unique<TypeFilteringDialog>(getData().saveData.getTypeFilter(), closeFunc);
 		}
 		else if (item == MenuBarItemIndex{ 2, 0 }) // ヘルプ > GitHub
 		{
