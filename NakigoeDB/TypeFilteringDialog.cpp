@@ -1,5 +1,4 @@
-﻿#include <ranges>
-#include "TypeFilteringDialog.hpp"
+﻿#include "TypeFilteringDialog.hpp"
 
 const Array<String> TypeFilteringDialog::Categories = { U"Type", U"Type1", U"Type2" };
 
@@ -40,7 +39,7 @@ TypeFilteringDialog::TypeFilteringDialog(const Optional<TagData>& filter, const 
 	{
 		size_t categoryIndex = 0;
 
-		for (const auto& [i, category] : Categories | std::views::enumerate)
+		for (const auto& [i, category] : Indexed(Categories))
 		{
 			if (filter->category == category)
 			{
@@ -53,7 +52,7 @@ TypeFilteringDialog::TypeFilteringDialog(const Optional<TagData>& filter, const 
 
 		size_t typeIndex = 0;
 
-		for (const auto& [i, type] : Types | std::views::enumerate)
+		for (const auto& [i, type] : Indexed(Types))
 		{
 			if (filter->value == type)
 			{

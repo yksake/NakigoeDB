@@ -578,7 +578,7 @@ Array<size_t> FilePanel::getSelectedIndex() const
 {
 	Array<size_t> selectedIndexList;
 
-	for (const auto& [i, item] : m_fileItems | std::views::enumerate)
+	for (const auto& [i, item] : Indexed(m_fileItems))
 	{
 		if (item.isSelected())
 		{
