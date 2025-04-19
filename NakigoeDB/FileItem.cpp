@@ -35,7 +35,7 @@ void FileItem::draw() const
 	{
 		const auto& key = data->key;
 
-		text = U"{:0>4}"_fmt(key.number) + U':';
+		text = U"{:0>4}"_fmt(key.number) + U". ";
 
 		// 名前
 		if (data->name.customName)
