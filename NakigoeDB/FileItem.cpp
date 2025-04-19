@@ -68,7 +68,7 @@ void FileItem::draw() const
 		}
 
 		// 警告
-		if (not data->path)
+		if (not data->path || not FileSystem::IsFile(data->path))
 		{
 			text += U" ⚠️";
 		}
