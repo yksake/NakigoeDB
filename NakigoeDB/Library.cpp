@@ -366,7 +366,7 @@ void Library::updateMenuBar()
 		}
 		else if (item == MenuBarItemIndex{ 2, 2 }) // ヘルプ > バージョン
 		{
-			System::MessageBoxOK(U"鳴き声DB v0.2.0", MessageBoxStyle::Info);
+			System::MessageBoxOK(U"鳴き声DB v0.2.1", MessageBoxStyle::Info);
 		}
 	}
 }
