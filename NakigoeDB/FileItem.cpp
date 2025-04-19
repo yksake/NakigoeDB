@@ -19,6 +19,7 @@ void FileItem::draw() const
 	String fontName = U"Font";
 	Color backgroundColor = Color{ 255 };
 	Color textColor = Color{ 0 };
+
 	if (m_isSelected)
 	{
 		fontName = U"FontMedium";
@@ -34,7 +35,7 @@ void FileItem::draw() const
 	{
 		const auto& key = data->key;
 
-		text = U"{:0>4}"_fmt(key.number) + U":";
+		text = U"{:0>4}"_fmt(key.number) + U':';
 
 		// 名前
 		if (data->name.customName)
@@ -49,11 +50,11 @@ void FileItem::draw() const
 		// フォルム名
 		if (data->subName.customName)
 		{
-			text += data->subName.customName;
+			text += U' ' + data->subName.customName;
 		}
 		else
 		{
-			text += data->subName.value;
+			text += U' ' + data->subName.value;
 		}
 
 		// 鳴き声のバージョン
@@ -86,7 +87,7 @@ void FileItem::draw() const
 				tagText = tag.category + U'.' + tag.value;
 			}
 
-			text += U" [" + tagText + U"]";
+			text += U" [" + tagText + U']';
 		}
 	}
 	else
@@ -148,20 +149,20 @@ String FileItem::getMouseOverText() const
 
 			if (data->name.customName)
 			{
-				text += U" " + data->name.customName;
+				text += U' ' + data->name.customName;
 			}
 			else if (data->name.value)
 			{
-				text += U" " + data->name.value;
+				text += U' ' + data->name.value;
 			}
 
 			if (data->subName.customName)
 			{
-				text += U" " + data->subName.customName;
+				text += U' ' + data->subName.customName;
 			}
 			else if (data->subName.value)
 			{
-				text += U" " + data->subName.value;
+				text += U' ' + data->subName.value;
 			}
 
 			return text;
